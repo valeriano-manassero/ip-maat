@@ -1,3 +1,3 @@
 #!/bin/sh
 
-python /opt/project/run.py
+python -u /opt/project/run.py

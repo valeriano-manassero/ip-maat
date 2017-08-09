@@ -3,7 +3,7 @@ FROM centos:7
 MAINTAINER Valeriano Manassero https://github.com/valeriano-manassero
 
 ENV LOGSTASH_HOST logstash
-ENV LOGSTASH_HOST 9563
+ENV LOGSTASH_PORT 9563
 ENV CRON_SECONDS 3600
 
 RUN mkdir -p /opt/project
