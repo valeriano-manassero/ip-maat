@@ -31,14 +31,8 @@ input {
 filter {
         if "ip-maat" in [tags] {
                 geoip {
-                        source => "[ip]"
+                        source => "[IP]"
                         target => "geoip"
-                        database => "/usr/share/logstash/GeoLite2/GeoLite2-City.mmdb"
-                        add_field => [ "[geoip][coordinates]", "%{[geoip][longitude]}" ]
-                        add_field => [ "[geoip][coordinates]", "%{[geoip][latitude]}"  ]
-                }
-                mutate {
-                        convert => [ "[geoip][coordinates]", "float"]
                 }
         }
 }
