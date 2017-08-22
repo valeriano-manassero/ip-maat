@@ -3,7 +3,7 @@ IP Maat is a Dockerized microservice that generates and mantains a blacklist bas
 
 The application merges these blacklists and outputs an updated malicious IP rank to a selected Logstash via TCP.
 
-The image is based on a CentOS 7 image.
+The image is based on Golang/Alpine image.
 
 
 ## Recommended Options
@@ -37,11 +37,6 @@ filter {
                         add_field => [ "[geoip][coordinates]", "%{[geoip][longitude]}" ]
                         add_field => [ "[geoip][coordinates]", "%{[geoip][latitude]}"  ]
                 }
-                geoip {
-                        source => "[ip]"
-                        target => "geoip"
-                        database => "/usr/share/logstash/GeoLite2/GeoLite2-ASN.mmdb"
-                }
                 mutate {
                         convert => [ "[geoip][coordinates]", "float"]
                 }
@@ -51,7 +46,7 @@ output {
         if "ip-maat" in [tags] {
                 elasticsearch {
                         hosts => ["elasticsearch:9200"]
-                        index => "logstash-ip-maat-%{+YYYY.MM.dd}"
+                        index => "ip-maat-%{+YYYY.MM.dd}"
                 }
         }
 }
