@@ -17,7 +17,7 @@ The image is based on Golang/Alpine image.
 ## Docker example usage
 
 ```
-docker run -d -e "LOGSTASH_HOST=logstash"-e "LOGSTASH_PORT=9563" -e "CRON_SECONDS=3600" valerianomanassero/ip-maat
+docker run -d -e "LOGSTASH_HOST=logstash"-e "LOGSTASH_PORT=9563" -e "CRON_SECONDS=3600" valerianomanassero/ip-maat:<VERSION>
 ```
 ## Logstash example config file
 ```
