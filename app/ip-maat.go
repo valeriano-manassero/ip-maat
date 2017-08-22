@@ -101,14 +101,16 @@ func main() {
 			}
 		}
 
-		jsonMessage, _ := json.Marshal(ips)
 		conn_string := strings.Join([]string{LOGSTASH_HOST, strconv.Itoa(LOGSTASH_PORT)}, ":")
 		log.Printf("[INFO] Connecting to Logstash (%s)\n", conn_string)
 		conn, err := net.Dial("tcp", conn_string)
 		if err != nil {
 			log.Printf("[ERROR] Logstash (%s) connection failed: %s\n", conn_string, err)
 		} else {
-			conn.Write([]byte(string(jsonMessage) + "\n"))
+			for _, v := range ips {
+				jsonMessage, _ := json.Marshal(v)
+				conn.Write([]byte(string(jsonMessage) + string("\n")))
+			}
 			conn.Close()
 			log.Printf("[INFO] Logstash (%s) data pushed\n", conn_string)
 		}

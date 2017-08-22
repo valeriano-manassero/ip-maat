@@ -10,6 +10,7 @@ import (
 )
 
 type IPAnalysis  struct {
+	IP string
 	Score int
 	Lists []string
 }
@@ -56,7 +57,7 @@ func (feed Feed)Fetch()(map[string]IPAnalysis, error) {
 			regex, _ := regexp.Compile(re)
 			var findings = regex.FindStringSubmatch(line)
 			if len(findings) == 2 {
-				result[findings[1]] = IPAnalysis{fa.Score, []string{feed.Name}}
+				result[findings[1]] = IPAnalysis{findings[1],fa.Score, []string{feed.Name}}
 			}
 		}
 	}
