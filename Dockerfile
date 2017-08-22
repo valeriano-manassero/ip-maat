@@ -1,4 +1,4 @@
-FROM centos:7
+FROM golang:1.8.3-alpine3.6
 
 MAINTAINER Valeriano Manassero https://github.com/valeriano-manassero
 
@@ -9,7 +9,6 @@ ENV CRON_SECONDS 3600
 RUN mkdir -p /opt/project
 WORKDIR /opt/project
 COPY app/ /opt/project/
+RUN go build ip-maat.go
 
-COPY docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
-CMD ["/docker-entrypoint.sh"]
+CMD ["./ip-maat"]
