@@ -87,6 +87,9 @@ PUT /_template/ip-maat
         "SUBNET": {
           "type": "keyword"
         },
+        "PrefixLength": {
+          "type": "byte"
+        },
         "Lists": {
           "type": "keyword"
         },
