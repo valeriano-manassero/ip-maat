@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strings"
 	"regexp"
+	"strconv"
 )
 
 type IPAnalysis  struct {
@@ -17,6 +18,7 @@ type IPAnalysis  struct {
 
 type SUBNETAnalysis  struct {
 	SUBNET string
+	PrefixLength byte
 	Score int
 	Lists []string
 }
@@ -70,7 +72,9 @@ func (feed Feed)Fetch()(map[string]IPAnalysis, map[string]SUBNETAnalysis, error)
 					match = true
 				} else if len(findings) == 3 {
 					subnet := findings[1] + "/" + findings[2]
-					result_subnets[subnet] = SUBNETAnalysis{subnet,fa.Score, []string{feed.Name}}
+					prefix_length, _ := strconv.Atoi(findings[2])
+					result_subnets[subnet] = SUBNETAnalysis{subnet, byte(prefix_length),
+						fa.Score, []string{feed.Name}}
 					match = true
 				}
 			}
