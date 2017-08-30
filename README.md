@@ -21,29 +21,43 @@ docker run -d -e "LOGSTASH_HOST=logstash"-e "LOGSTASH_PORT=9563" -e "CRON_SECOND
 ## Logstash example config file
 ```
 input {
-        tcp {
-                port => 9563
-                codec => json_lines{ }
-                tags => "ip-maat"
-        }
+    tcp {
+        port => 9563
+        codec => json_lines{ }
+        tags => "ip-maat"
+    }
 }
 filter {
-        if "ip-maat" in [tags] {
-                if [IP] {
-                        geoip {
-                                source => "[IP]"
-                                target => "geoip"
-                        }
-                }
+    if "ip-maat" in [tags] {
+        if [IP] {
+            geoip {
+                source => "[IP]"
+                target => "geoip"
+            }
+        } else {
+            mutate {
+                copy => { "SUBNET" => "subnet_splitted" }
+            }
+            mutate {
+                split => { "subnet_splitted" => "/" }
+            }
+            geoip {
+                source => "[subnet_splitted][0]"
+                target => "geoip"
+            }
+            mutate {
+                remove_field => [ "subnet_splitted" ]
+            }
         }
+    }
 }
 output {
-        if "ip-maat" in [tags] {
-                elasticsearch {
-                        hosts => ["elasticsearch:9200"]
-                        index => "ip-maat-%{+YYYY.MM.dd}"
-                }
+    if "ip-maat" in [tags] {
+        elasticsearch {
+            hosts => ["elasticsearch:9200"]
+            index => "ip-maat-%{+YYYY.MM.dd}"
         }
+    }
 }
 ```
 ## Elasticsearch template query
