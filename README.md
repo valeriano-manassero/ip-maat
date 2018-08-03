@@ -1,5 +1,5 @@
 # valerianomanassero/ip-maat
-IP Maat is a Dockerized microservice that generates and mantains a blacklist based on various public IP blacklists.
+IP Maat is a Dockerized microservice (PYTHON VERSION) that generates and mantains a blacklist based on various public IP blacklists.
 
 The application merges these blacklists and outputs an updated malicious IP rank to a selected Logstash via TCP.
 
